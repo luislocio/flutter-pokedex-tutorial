@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:pokedex/consts/consts_app.dart';
 import 'package:pokedex/models/poke_api.dart';
 import 'package:pokedex/stores/pokeapi_store.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 import 'package:sliding_sheet/sliding_sheet.dart';
 
@@ -49,7 +50,7 @@ class _PokeDetailState extends State<PokeDetail> {
             ),
             SlidingSheet(
               snapSpec: const SnapSpec(snappings: [0.7, 1.0]),
-              cornerRadius: 16,
+              cornerRadius: 40,
               builder: (_, __) {
                 return Container(height: ConstsApp.screenHeight(context));
               },
@@ -57,14 +58,40 @@ class _PokeDetailState extends State<PokeDetail> {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: SizedBox(
-                height: 150,
+                height: 200,
                 child: PageView.builder(
                   controller: _pageController,
                   onPageChanged: (index) => _pokemonStore.setCurrentIndex(index),
                   itemCount: _pokemonStore.pokeAPI.pokemonList.length,
                   itemBuilder: (_, index) {
                     Pokemon pokemon = _pokemonStore.pokeAPI.pokemonList[index];
-                    return _pokemonStore.getImage(number: pokemon.pokeNum);
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        ControlledAnimation(
+                          playback: Playback.MIRROR,
+                          duration: _animation.duration,
+                          tween: _animation,
+                          builder: (context, animation) {
+                            return Transform.rotate(
+                              angle: animation['rotation'],
+                              child: Hero(
+                                tag: pokemon.pokeNum,
+                                child: Opacity(
+                                  child: Image.asset(ConstsApp.whitePokeball),
+                                  opacity: 0.2,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        AnimatedPadding(
+                            curve: Curves.bounceInOut,
+                            duration: Duration(milliseconds: 400),
+                            padding: EdgeInsets.all(index == _pokemonStore.currentIndex ? 0 : 60),
+                            child: _pokemonStore.getImage(number: pokemon.pokeNum, size: 160)),
+                      ],
+                    );
                   },
                 ),
               ),
@@ -74,4 +101,14 @@ class _PokeDetailState extends State<PokeDetail> {
       ),
     );
   }
+
+  MultiTrackTween _animation = MultiTrackTween(
+    [
+      Track("rotation").add(
+        Duration(seconds: 7),
+        Tween(begin: 0.0, end: 6),
+        curve: Curves.elasticIn,
+      ),
+    ],
+  );
 }

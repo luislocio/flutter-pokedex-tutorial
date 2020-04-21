@@ -15,14 +15,21 @@ abstract class _PokeApiStoreBase with Store {
   @observable
   PokeAPI pokeAPI;
 
+  @observable
+  dynamic currentIndex;
+
   _PokeApiStoreBase() {
     if (pokeAPI == null) {
       fetchPokemonList();
     }
   }
 
-  @observable
-  dynamic currentIndex;
+  @action
+  fetchPokemonList() {
+    loadPokeAPI().then((pokeList) {
+      pokeAPI = pokeList;
+    });
+  }
 
   @action
   setCurrentIndex(int index) {
@@ -37,17 +44,7 @@ abstract class _PokeApiStoreBase with Store {
     return ConstsApp.getColorType(type: currentPokemon.types[0]);
   }
 
-  @action
-  Pokemon getPokemon({int index}) {
-    return pokeAPI.pokemonList[index];
-  }
-
-  @action
-  fetchPokemonList() {
-    loadPokeAPI().then((pokeList) {
-      pokeAPI = pokeList;
-    });
-  }
+  Pokemon getPokemon({int index}) => pokeAPI.pokemonList[index];
 
   Future<PokeAPI> loadPokeAPI() async {
     try {
