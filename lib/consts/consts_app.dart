@@ -4,6 +4,18 @@ class ConstsApp {
   static const whitePokeball = 'assets/images/pokeball.png';
   static const blackPokeball = 'assets/images/pokeball_dark.png';
 
+  static double screenHeight(BuildContext context, {double dividedBy = 1}) {
+    return MediaQuery.of(context).size.height / dividedBy;
+  }
+
+  static double screenWidth(BuildContext context, {double dividedBy = 1}) {
+    return MediaQuery.of(context).size.width / dividedBy;
+  }
+
+  static double statusBarHeight(BuildContext context) {
+    return MediaQuery.of(context).padding.top;
+  }
+
   static Color getColorType({String type}) {
     switch (type) {
       case 'Normal':

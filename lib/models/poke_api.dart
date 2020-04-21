@@ -1,21 +1,21 @@
 class PokeAPI {
-  List<Pokemon> pokemon;
+  List<Pokemon> pokemonList;
 
-  PokeAPI({this.pokemon});
+  PokeAPI({this.pokemonList});
 
   PokeAPI.fromJson(Map<String, dynamic> json) {
     if (json['pokemon'] != null) {
-      pokemon = new List<Pokemon>();
+      pokemonList = new List<Pokemon>();
       json['pokemon'].forEach((v) {
-        pokemon.add(new Pokemon.fromJson(v));
+        pokemonList.add(new Pokemon.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.pokemon != null) {
-      data['pokemon'] = this.pokemon.map((v) => v.toJson()).toList();
+    if (this.pokemonList != null) {
+      data['pokemon'] = this.pokemonList.map((v) => v.toJson()).toList();
     }
     return data;
   }

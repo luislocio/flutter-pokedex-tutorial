@@ -20,13 +20,13 @@ scripts:
   mobx: flutter pub get & flutter pub run build_runner watch --delete-conflicting-outputs
 
 dependencies:
+  get_it: ^4.0.1
   flutter_spinkit: ^4.1.2+1
   http: ^0.12.0+4
   intl: ^0.16.1
   flutter_icons: ^1.1.0
   sliding_sheet: ^0.3.3
   flutter_staggered_animations: ^0.1.2
-  provider: ^4.0.5
   md2_tab_indicator: ^1.0.2
   cached_network_image: ^2.1.0+1
   flutter_mobx: ^1.1.0

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pokedex/consts/consts_api.dart';
+import 'package:pokedex/consts/consts_app.dart';
 import 'package:pokedex/models/poke_api.dart';
 import 'package:http/http.dart' as http;
 part 'pokeapi_store.g.dart';
@@ -13,6 +14,33 @@ class PokeApiStore = _PokeApiStoreBase with _$PokeApiStore;
 abstract class _PokeApiStoreBase with Store {
   @observable
   PokeAPI pokeAPI;
+
+  _PokeApiStoreBase() {
+    if (pokeAPI == null) {
+      fetchPokemonList();
+    }
+  }
+
+  @observable
+  dynamic currentIndex;
+
+  @action
+  setCurrentIndex(int index) {
+    currentIndex = index;
+  }
+
+  @computed
+  Pokemon get currentPokemon => pokeAPI.pokemonList[currentIndex];
+
+  @computed
+  dynamic get currentPokemonColor {
+    return ConstsApp.getColorType(type: currentPokemon.types[0]);
+  }
+
+  @action
+  Pokemon getPokemon({int index}) {
+    return pokeAPI.pokemonList[index];
+  }
 
   @action
   fetchPokemonList() {

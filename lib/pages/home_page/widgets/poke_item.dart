@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/consts/consts_app.dart';
 import 'package:pokedex/models/poke_api.dart';
-import 'package:pokedex/stores/pokeapi_store.dart';
 
 class PokeItem extends StatelessWidget {
   final Pokemon pokemon;
+  final Widget image;
 
-  const PokeItem({Key key, this.pokemon}) : super(key: key);
+  const PokeItem({Key key, this.pokemon, this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final PokeApiStore pokeApiStore = PokeApiStore();
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -57,7 +55,7 @@ class PokeItem extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                child: pokeApiStore.getImage(number: pokemon.pokeNum, size: 90),
+                child: image,
               ),
             ],
           ),
